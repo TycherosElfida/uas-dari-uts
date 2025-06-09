@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\PhotoGalleryController as AdminPhotoGalleryContro
 use App\Http\Controllers\PhotoGalleryController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\AdminManagementController;
 
 // We'll set the homepage to show the list of all books
 Route::get('/', [BookController::class, 'index'])->name('home');
@@ -72,6 +73,8 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/messages', [ContactMessageController::class, 'index'])->name('messages.index');
         Route::delete('/messages/{contactMessage}', [ContactMessageController::class, 'destroy'])->name('messages.destroy');
+
+        Route::resource('admins', AdminManagementController::class)->except(['show']);
     });
 
 require __DIR__ . '/auth.php';
