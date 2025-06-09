@@ -31,7 +31,7 @@
                                 <p class="text-sm text-gray-600 mt-1">by {{ $book->author }}</p>
                                 <p class="text-sm text-gray-500 mt-2">Stock: {{ $book->stock }}</p>
                             </div>
-                            <a href="{{ route('books.show', $book->book_id) }}" class="mt-4 inline-block bg-green-600 text-white text-center font-bold py-2 px-4 rounded-md hover:bg-green-700 transition">
+                            <a href="{{ route('books.show', $book) }}" class="mt-4 inline-block bg-green-600 text-white text-center font-bold py-2 px-4 rounded-md hover:bg-green-700 transition">
                                 Details & Borrow
                             </a>
                         </div>
