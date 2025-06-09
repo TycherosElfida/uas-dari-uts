@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('gallery.index')" :active="request()->routeIs('gallery.index')">
                         {{ __('Gallery') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.create')">
+                        {{ __('Contact Us') }}
+                    </x-nav-link>
                 </div>
             </div>
 

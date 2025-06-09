@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Admin\PhotoGalleryController as AdminPhotoGalleryController;
 use App\Http\Controllers\PhotoGalleryController;
+use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\ContactController;
 
 // We'll set the homepage to show the list of all books
 Route::get('/', [BookController::class, 'index'])->name('home');
@@ -27,10 +29,13 @@ Route::get('/books', [BookController::class, 'index'])->name('books.index');
 // The {book} part will automatically pass the book's ID to the controller.
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
+Route::get('/contact-us', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
+
+
 // Loan management
 Route::middleware('auth')->group(function () {
     Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
-    // We will add more loan routes here later
 });
 
 
@@ -64,6 +69,9 @@ Route::middleware(['auth', 'admin'])
         Route::resource('articles', AdminArticleController::class);
 
         Route::resource('photos', AdminPhotoGalleryController::class);
+
+        Route::get('/messages', [ContactMessageController::class, 'index'])->name('messages.index');
+        Route::delete('/messages/{contactMessage}', [ContactMessageController::class, 'destroy'])->name('messages.destroy');
     });
 
 require __DIR__ . '/auth.php';
