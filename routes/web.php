@@ -9,12 +9,16 @@ use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Admin\PhotoGalleryController as AdminPhotoGalleryController;
+use App\Http\Controllers\PhotoGalleryController;
 
 // We'll set the homepage to show the list of all books
 Route::get('/', [BookController::class, 'index'])->name('home');
 
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+
+Route::get('/gallery', [PhotoGalleryController::class, 'index'])->name('gallery.index');
 
 // A dedicated route for the book list
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
@@ -58,6 +62,8 @@ Route::middleware(['auth', 'admin'])
         Route::resource('members', MemberController::class);
 
         Route::resource('articles', AdminArticleController::class);
+
+        Route::resource('photos', AdminPhotoGalleryController::class);
     });
 
 require __DIR__ . '/auth.php';

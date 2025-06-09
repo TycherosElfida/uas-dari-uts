@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
                         {{ __('Articles') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.photos.index')" :active="request()->routeIs('admin.photos.*')">
+                        {{ __('Photo Gallery') }}
+                    </x-nav-link>
                 </div>
             </div>
 
