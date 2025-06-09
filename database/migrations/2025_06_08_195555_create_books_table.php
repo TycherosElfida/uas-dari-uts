@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 200)->comment('Judul buku');
             $table->string('author', 100)->comment('Penulis buku');
             $table->integer('stock')->default(0)->comment('Jumlah stok');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 

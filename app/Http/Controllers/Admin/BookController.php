@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Http\Requests\StoreBookRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class BookController extends Controller
 {
@@ -13,10 +16,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        // Fetch all books, ordered by the newest first, and paginate the results
-        $books = Book::latest()->paginate(10); // Show 10 books per page
-
-        // Return the view and pass the book data to it
+        $books = Book::latest()->paginate(10);
         return view('admin.books.index', compact('books'));
     }
 
@@ -31,15 +31,10 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        // Laravel automatically validates the request using StoreBookRequest.
-        // If validation fails, it redirects back with errors automatically.
-
-        // If validation passes, create the book using the validated data.
         Book::create($request->validated());
 
-        // Redirect back to the book list with a success message.
         return redirect()->route('admin.books.index')->with('success', 'Book created successfully.');
     }
 
@@ -54,21 +49,18 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Book $book)
     {
-        // Route-Model binding automatically finds the book for us.
-        // We pass this book data to the view.
+
         return view('admin.books.edit', compact('book'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreBookRequest $request, Book $book)
     {
-        // We reuse the same StoreBookRequest for validation.
-        // Route-Model binding finds the book, then we update it.
-        Book::update($request->validated());
+        $book->update($request->validated());
 
         return redirect()->route('admin.books.index')->with('success', 'Book updated successfully.');
     }
@@ -76,9 +68,9 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Book $book)
     {
-        Book::delete();
+        $book->delete();
 
         return redirect()->route('admin.books.index')->with('success', 'Book deleted successfully.');
     }
