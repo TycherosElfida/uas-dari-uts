@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 
 // We'll set the homepage to show the list of all books
 Route::get('/', [BookController::class, 'index'])->name('home');
@@ -33,15 +34,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
-    Route::get('/my-loans', [LoanController::class, 'index'])->name('loans.index'); // <-- ADD THIS
-    Route::patch('/loans/{loan}/return', [LoanController::class, 'returnBook'])->name('loans.return'); // <-- AND THIS
-
+    Route::get('/my-loans', [LoanController::class, 'index'])->name('loans.index');
+    Route::patch('/loans/{loan}/return', [LoanController::class, 'returnBook'])->name('loans.return');
 });
 
 // --- ADMIN ROUTES ---
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    // All admin routes will go here.
-    // The name('admin.') part adds a prefix to all route names, e.g., 'admin.dashboard'.
-});
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        // All admin routes will go here.
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('books', BookController::class);
+    });
 
 require __DIR__ . '/auth.php';

@@ -17,9 +17,9 @@ class IsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         // Check if the user is logged in and if their role is 'admin'
-        /** @var \App\Models\User $isAdmin*/
-        $isAdmin = Auth::isAdmin();
-        if (Auth::check() && Auth::user()->$isAdmin) {
+        /** @var \App\Models\User|null*/
+        $user = Auth::user();
+        if ($user && $user->isAdmin()) {
             // If they are an admin, allow the request to proceed
             return $next($request);
         }
