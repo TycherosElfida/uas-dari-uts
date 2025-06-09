@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 
 // We'll set the homepage to show the list of all books
 Route::get('/', [BookController::class, 'index'])->name('home');
@@ -51,6 +52,8 @@ Route::middleware(['auth', 'admin'])
         Route::resource('books', AdminBookController::class);
 
         Route::resource('members', MemberController::class);
+
+        Route::resource('articles', AdminArticleController::class);
     });
 
 require __DIR__ . '/auth.php';
