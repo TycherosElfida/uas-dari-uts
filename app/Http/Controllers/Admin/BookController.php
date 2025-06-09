@@ -25,7 +25,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.books.create');
     }
 
     /**
@@ -33,7 +33,14 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Laravel automatically validates the request using StoreBookRequest.
+        // If validation fails, it redirects back with errors automatically.
+
+        // If validation passes, create the book using the validated data.
+        Book::create($request->validated());
+
+        // Redirect back to the book list with a success message.
+        return redirect()->route('admin.books.index')->with('success', 'Book created successfully.');
     }
 
     /**
@@ -49,7 +56,9 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Route-Model binding automatically finds the book for us.
+        // We pass this book data to the view.
+        return view('admin.books.edit', compact('book'));
     }
 
     /**
@@ -57,7 +66,11 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // We reuse the same StoreBookRequest for validation.
+        // Route-Model binding finds the book, then we update it.
+        Book::update($request->validated());
+
+        return redirect()->route('admin.books.index')->with('success', 'Book updated successfully.');
     }
 
     /**
@@ -65,6 +78,8 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Book::delete();
+
+        return redirect()->route('admin.books.index')->with('success', 'Book deleted successfully.');
     }
 }
