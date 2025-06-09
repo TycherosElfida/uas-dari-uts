@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -55,18 +56,20 @@ class AdminManagementController extends Controller
      */
     public function destroy(User $admin): RedirectResponse
     {
-        // Add a safety check: you cannot delete yourself.
-        if (auth()->id() === $admin->id) {
+        // you cannot delete yourself
+        if (Auth::id() === $admin->getKey()) {
             return back()->with('error', 'You cannot delete your own account.');
         }
 
-        // Add a safety check: there must always be at least one admin.
+        // at least one admin must remain
         if (User::where('role', 'admin')->count() <= 1) {
             return back()->with('error', 'Cannot delete the last admin account.');
         }
 
         $admin->delete();
 
-        return redirect()->route('admin.admins.index')->with('success', 'Admin deleted successfully.');
+        return redirect()
+            ->route('admin.admins.index')
+            ->with('success', 'Admin deleted successfully.');
     }
 }
