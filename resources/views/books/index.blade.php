@@ -25,15 +25,25 @@
                     @if($books->count())
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach ($books as $book)
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-900">{{ $book->title }}</h3>
-                                <p class="text-sm text-gray-600 mt-1">by {{ $book->author }}</p>
-                                <p class="text-sm text-gray-500 mt-2">Stock: {{ $book->stock }}</p>
-                            </div>
-                            <a href="{{ route('books.show', $book) }}" class="mt-4 inline-block bg-green-600 text-white text-center font-bold py-2 px-4 rounded-md hover:bg-green-700 transition">
-                                Details & Borrow
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col">
+                            {{-- Book Cover Image --}}
+                            <a href="{{ route('books.show', $book) }}">
+                                <img class="rounded-t-lg h-64 w-full object-cover"
+                                    src="{{ $book->cover_image ? asset('storage/' . $book->cover_image) : 'https://via.placeholder.com/400x600.png/003344?text=BookRent' }}"
+                                    alt="{{ $book->title }}" />
                             </a>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">{{ $book->title }}</h3>
+                                    <p class="text-sm text-gray-600 mt-1">by {{ $book->author }}</p>
+                                </div>
+                                <div class="mt-auto pt-4">
+                                    <p class="text-sm text-gray-500 mt-2 mb-3">Stock: {{ $book->stock }}</p>
+                                    <a href="{{ route('books.show', $book) }}" class="w-full inline-block bg-green-600 text-white text-center font-bold py-2 px-4 rounded-md hover:bg-green-700 transition">
+                                        Details & Borrow
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         @endforeach
                     </div>

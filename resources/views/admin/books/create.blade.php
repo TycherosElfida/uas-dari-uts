@@ -9,7 +9,7 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="{{ route('admin.books.store') }}">
+                    <form method="POST" action="{{ route('admin.books.store') }}" enctype="multipart/form-data">
                         @csrf
                         {{-- We will include our reusable form fields here --}}
                         @include('admin.books.partials._form')

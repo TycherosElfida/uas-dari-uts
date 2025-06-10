@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -33,6 +34,13 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
+
+        if ($request->hasFile('cover_image')) {
+            // Store the image in 'storage/app/public/book-covers' and get the path
+            $path = $request->file('cover_image')->store('book-covers', 'public');
+            $validated['cover_image'] = $path;
+        }
+
         Book::create($request->validated());
 
         return redirect()->route('admin.books.index')->with('success', 'Book created successfully.');
@@ -60,6 +68,16 @@ class BookController extends Controller
      */
     public function update(StoreBookRequest $request, Book $book)
     {
+        if ($request->hasFile('cover_image')) {
+            // Delete the old cover image if it exists to save space
+            if ($book->cover_image) {
+                Storage::disk('public')->delete($book->cover_image);
+            }
+            // Store the new image and get its path
+            $path = $request->file('cover_image')->store('book-covers', 'public');
+            $validated['cover_image'] = $path;
+        }
+
         $book->update($request->validated());
 
         return redirect()->route('admin.books.index')->with('success', 'Book updated successfully.');
@@ -70,6 +88,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        if ($book->cover_image) {
+            Storage::disk('public')->delete($book->cover_image);
+        }
+
         $book->delete();
 
         return redirect()->route('admin.books.index')->with('success', 'Book deleted successfully.');

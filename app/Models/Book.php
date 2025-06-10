@@ -27,6 +27,7 @@ class Book extends Model
         'title',
         'author',
         'stock',
+        'cover_image',
     ];
 
     /**
