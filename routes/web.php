@@ -49,7 +49,7 @@ Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.s
 // This is the default dashboard route from Breeze
 Route::get('/dashboard', function () {
     // A simple dashboard for members could show their active loans
-    return redirect()->route('loans.index');
+    return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
