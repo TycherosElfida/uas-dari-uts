@@ -15,19 +15,20 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // ini buat role admin
         User::create([
             'name' => 'Admin',
             'email' => 'admin@bookrent.com',
-            'password' => Hash::make('password'), // Use a strong password in a real project!
+            'password' => Hash::make('12345'),
             'role' => 'admin',
             'status' => 'Aktif',
         ]);
 
+        // Ini buat role member
         User::create([
             'name' => 'test',
             'email' => 'test@mail.com',
-            // The password from your old site was 'admin12345'
-            'password' => Hash::make('admin12345'),
+            'password' => Hash::make('12345'),
             'role' => 'member',
             'status' => 'Aktif',
         ]);

@@ -30,7 +30,7 @@ Route::get('/', [BookController::class, 'index'])->name('home');
 
 // Public Book Routes
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::get('/books/{book:slug}', [BookController::class, 'show'])->name('books.show'); // Corrected from PublicBookController
+Route::get('/books/{book:slug}', [BookController::class, 'show'])->name('books.show');
 
 // Public Article Routes
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');

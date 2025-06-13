@@ -66,19 +66,28 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreBookRequest $request, Book $book)
+    public function update(StoreBookRequest $request, Book $book): RedirectResponse
     {
+        // Step 1: Get all the validated data into an array FIRST.
+        $validated = $request->validated();
+
+        // Step 2: Check if a new cover image was uploaded in the request.
         if ($request->hasFile('cover_image')) {
-            // Delete the old cover image if it exists to save space
+            // Delete the old cover image if it exists to save space.
             if ($book->cover_image) {
                 Storage::disk('public')->delete($book->cover_image);
             }
-            // Store the new image and get its path
+
+            // Store the new image and get its correct path.
             $path = $request->file('cover_image')->store('book-covers', 'public');
+
+            // Step 3 (The Fix): OVERWRITE the 'cover_image' key in our $validated
+            // data array with the correct path we just received from storage.
             $validated['cover_image'] = $path;
         }
 
-        $book->update($request->validated());
+        // Step 4: Now, pass our final, correct $validated array to the update method.
+        $book->update($validated);
 
         return redirect()->route('admin.books.index')->with('success', 'Book updated successfully.');
     }

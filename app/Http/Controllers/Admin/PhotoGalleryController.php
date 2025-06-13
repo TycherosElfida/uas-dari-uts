@@ -36,11 +36,11 @@ class PhotoGalleryController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:16384',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2064',
         ]);
 
         // Store the image in the 'gallery' directory inside 'storage/app/public'
-        $path = $request->file('image')->store('gallery', 'public');
+        $path = $request->file('image')->store(path: 'gallery', options: 'public');
         $validated['image_path'] = $path;
 
         PhotoGallery::create($validated);
