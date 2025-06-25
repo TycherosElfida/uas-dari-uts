@@ -13,7 +13,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @foreach ($photos as $photo)
                         <div>
-                            <a href="{{ asset('storage/' . $photo->image_path) }}" target="_blank" class="block group">
+                            <a href="{{ asset('storage/app/public/' . $photo->image_path) }}" target="_blank" class="block group">
                                 <img src="{{ asset('storage/' . $photo->image_path) }}" alt="{{ $photo->title }}" class="w-full h-auto object-cover rounded-lg shadow-md group-hover:shadow-xl transition-shadow">
                             </a>
                             <h3 class="mt-2 font-bold">{{ $photo->title }}</h3>

@@ -17,7 +17,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::latest()->paginate(10);
+        $books = Book::orderBy('book_id')->paginate(10);
         return view('admin.books.index', compact('books'));
     }
 
@@ -36,7 +36,6 @@ class BookController extends Controller
     {
 
         if ($request->hasFile('cover_image')) {
-            // Store the image in 'storage/app/public/book-covers' and get the path
             $path = $request->file('cover_image')->store('book-covers', 'public');
             $validated['cover_image'] = $path;
         }
@@ -66,19 +65,20 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreBookRequest $request, Book $book)
+    public function update(StoreBookRequest $request, Book $book): RedirectResponse
     {
+        $validated = $request->validated();
+
         if ($request->hasFile('cover_image')) {
-            // Delete the old cover image if it exists to save space
             if ($book->cover_image) {
                 Storage::disk('public')->delete($book->cover_image);
             }
-            // Store the new image and get its path
+
             $path = $request->file('cover_image')->store('book-covers', 'public');
             $validated['cover_image'] = $path;
         }
 
-        $book->update($request->validated());
+        $book->update($validated);
 
         return redirect()->route('admin.books.index')->with('success', 'Book updated successfully.');
     }

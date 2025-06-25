@@ -40,7 +40,7 @@ class PhotoGalleryController extends Controller
         ]);
 
         // Store the image in the 'gallery' directory inside 'storage/app/public'
-        $path = $request->file('image')->store('gallery', 'public');
+        $path = $request->file('image')->store(path: 'gallery', options: 'public');
         $validated['image_path'] = $path;
 
         PhotoGallery::create($validated);
