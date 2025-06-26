@@ -22,6 +22,11 @@
 </div>
 
 <div class="mb-4">
+    <label for="synopsis" class="block font-medium text-sm text-gray-700">Synopsis</label>
+    <textarea name="synopsis" id="synopsis" rows="5" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ old('synopsis', $book->synopsis ?? '') }}</textarea>
+</div>
+
+<div class="mb-4">
     <label for="stock" class="block font-medium text-sm text-gray-700">Stock</label>
     <input type="number" name="stock" id="stock" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         value="{{ old('stock', $book->stock ?? '0') }}" required min="0">

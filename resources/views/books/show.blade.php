@@ -22,6 +22,16 @@
                         <h1 class="text-3xl font-bold text-gray-900">{{ $book->title }}</h1>
                         <p class="text-lg text-gray-600 mt-2">by <span class="font-semibold">{{ $book->author }}</span></p>
 
+                        <p class="text-lg text-gray-900 mt-6">Synopsis</p>
+
+                        <div class="mt-2 prose prose-sm max-w-none text-gray-700">
+                            @if($book->synopsis)
+                            <p>{{ $book->synopsis }}</p>
+                            @else
+                            <p>No synopsis available for this book.</p>
+                            @endif
+                        </div>
+
                         <div class="mt-6 border-t border-gray-200 pt-6">
                             <p class="text-lg font-medium"><strong>Available Stock:</strong> {{ $book->stock }}</p>
                         </div>
